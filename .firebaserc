@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "prod": "calendis-production",
+    "test": "calendis-test",
+    "default": "test"
+  },
+  "targets": {},
+  "etags": {}
+}

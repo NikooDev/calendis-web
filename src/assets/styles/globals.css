@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@import "./theme.css";
+
+@layer base {
+	html {
+		-webkit-font-smoothing: antialiased;
+		scrollbar-gutter: stable;
+		direction: ltr;
+	}
+
+	html, body {
+		@apply h-full;
+	}
+
+	body {
+		@apply bg-background text-default-text font-default;
+	}
+}
+
+@layer utilities {
+
+}
+
+@layer components {
+
+}

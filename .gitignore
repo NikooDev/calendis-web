@@ -14,11 +14,17 @@
 /coverage
 
 # next.js
-/.next/
-/out/
+/dist
 
 # production
 /build
+
+# firebase
+firebase-debug.log
+firestore-debug.log
+storage-debug.log
+/exports
+/functions/node_modules
 
 # misc
 .DS_Store
@@ -39,3 +45,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/.idea

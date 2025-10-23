@@ -1,0 +1,34 @@
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+	--red-light: rgb(241, 111, 111);
+	--red-main: rgb(189, 47, 47);
+	--red-dark: rgb(158, 39, 39);
+	--orange-light: rgb(246, 166, 97);
+	--orange-main: rgb(198, 93, 35);
+	--orange-dark: rgb(168, 79, 29);
+	--green-light: rgb(208, 239, 216);
+	--green-main: rgb(25, 133, 57);
+	--green-dark: rgb(14, 103, 47);
+	--blue-light: rgb(144, 176, 244);
+	--blue-main: rgb(37, 99, 235);
+	--blue-dark: rgb(31, 85, 195);
+	--purple-light: rgb(196, 181, 253);
+	--purple-main: rgb(133, 59, 246);
+	--purple-dark: rgb(113, 50, 207);
+	--pink-light: rgb(249, 168, 212);
+	--pink-main: rgb(216, 41, 116);
+	--pink-dark: rgb(188, 35, 101);
+}
+
+:root.dark {
+	--color-background: #131920;
+	--color-default-text: #c3d3ec;
+}
+
+@theme {
+	--color-background: #eff3f9;
+	--color-default-text: #222427;
+	--font-title: var(--font-title);
+	--font-default: var(--font-default);
+}
