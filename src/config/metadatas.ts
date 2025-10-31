@@ -43,7 +43,7 @@ const metadatas = (config?: ConfigMetadatas): Metadata => {
 				{ url: '/icons/apple-touch-icon.png', sizes: '180x180' }
 			]
 		},
-		manifest: '/manifest.json'
+		manifest: Env.isEnvironment('production') ? 'https://www.calendis.fr/manifest.webmanifest' : '/manifest.webmanifest'
 	} as Metadata;
 };
 
