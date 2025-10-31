@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import inquirer from 'inquirer';
-import { execSync, exec } from 'child_process';
+import { execSync } from 'child_process';
 
 const run = async () => {
 	const { environments } = await inquirer.prompt([

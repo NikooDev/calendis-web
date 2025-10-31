@@ -13,11 +13,10 @@ const defaultDescription = 'L\'application unique pour planifier la distribution
  */
 const metadatas = (config?: ConfigMetadatas): Metadata => {
 	const { title: t, description: d, index = true, follow = true } = config ?? {};
-
-	console.log('env', Env.isEnvironment('production'));
+	const metadataBase = Env.isEnvironment('production') ? new URL('https://www.calendis.fr') : new URL('http://localhost:3000');
 
 	return {
-		metadataBase: Env.isEnvironment('production') ? new URL('https://www.calendis.fr') : new URL('http://localhost:3000'),
+		metadataBase,
 		title: t ?? defaultTitle,
 		description: d ?? defaultDescription,
 		robots: {

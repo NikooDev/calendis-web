@@ -79,7 +79,11 @@ class CalendisProxy {
 				}
 
 				if (!this.hasUser && !this.isPublicPath()) {
-					return this.redirect('/login', 303);
+					if (this.pathname !== '/login') {
+						const loginUrl = new URL('/login', this.origin);
+						loginUrl.searchParams.set('redirect', `${ this.origin }/welcome`);
+						return this.withPathHeader(NextResponse.redirect(loginUrl, 303));
+					}
 				}
 
 				if (this.pathname.startsWith('/app')) {
@@ -118,6 +122,7 @@ export const proxy = (req: NextRequest) => {
 	return handler.handle();
 };
 
+// noinspection JSUnusedGlobalSymbols
 export const config = {
 	matcher: [
 		'/((?!_next|api|favicon\\.ico|robots\\.txt|sitemap\\.xml|static|icons|manifest\\.webmanifest).*)',
