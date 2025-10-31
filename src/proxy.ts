@@ -80,8 +80,8 @@ class CalendisProxy {
 
 				if (!this.hasUser && !this.isPublicPath()) {
 					if (this.pathname !== '/login') {
-						const loginUrl = new URL('/login', this.origin);
-						loginUrl.searchParams.set('redirect', `${ this.origin }/welcome`);
+						const redirectTo = `${this.origin}/welcome`;
+						const loginUrl = new URL(`/login?redirect=${encodeURIComponent(redirectTo)}`, this.origin);
 						return this.withPathHeader(NextResponse.redirect(loginUrl, 303));
 					}
 				}
