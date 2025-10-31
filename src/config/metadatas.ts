@@ -14,6 +14,8 @@ const defaultDescription = 'L\'application unique pour planifier la distribution
 const metadatas = (config?: ConfigMetadatas): Metadata => {
 	const { title: t, description: d, index = true, follow = true } = config ?? {};
 
+	console.log('env', Env.isEnvironment('production'));
+
 	return {
 		metadataBase: Env.isEnvironment('production') ? new URL('https://www.calendis.fr') : new URL('http://localhost:3000'),
 		title: t ?? defaultTitle,
@@ -43,7 +45,7 @@ const metadatas = (config?: ConfigMetadatas): Metadata => {
 				{ url: '/icons/apple-touch-icon.png', sizes: '180x180' }
 			]
 		},
-		manifest: Env.isEnvironment('production') ? 'https://www.calendis.fr/manifest.webmanifest' : '/manifest.webmanifest'
+		manifest: '/manifest.webmanifest'
 	} as Metadata;
 };
 
