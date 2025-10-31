@@ -1,11 +1,18 @@
-import type { MetadataRoute } from 'next';
+import { type NextRequest, NextResponse } from 'next/server';
 
-const manifest = (): MetadataRoute.Manifest => {
-	return {
+export async function GET(req: NextRequest) {
+	const host = new URL(req.url).hostname;
+
+	const isApp = host.startsWith('app.');
+	const startUrl = isApp ? '/app' : '/';
+	const scope = isApp ? '/app/' : '/';
+
+	return NextResponse.json({
 		name: 'Calendis',
 		short_name: 'Calendis',
 		description: 'La planification connectée des tournées de calendriers.',
-		start_url: '/',
+		start_url: startUrl,
+		scope,
 		display: 'standalone',
 		background_color: '#fff',
 		theme_color: '#131920',
@@ -30,7 +37,5 @@ const manifest = (): MetadataRoute.Manifest => {
 				type: 'image/png'
 			}
 		]
-	}
+	});
 }
-
-export default manifest;
