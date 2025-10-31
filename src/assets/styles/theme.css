@@ -1,0 +1,119 @@
+@custom-variant dark (&:where([data-mode=dark], [data-mode=dark] *));
+
+:root {
+	color-scheme: light dark;
+}
+
+@theme {
+	--scroll-y: 0;
+	--toast-width: 356px;
+	--ripple-duration: .6s;
+	--radius-1xl: 10px;
+	--font-title: var(--font-title);
+	--font-default: var(--font-default);
+	--shadow-right: 4px 0px 6px -1px rgba(0,0,0,.1), 2px 0 4px -2px rgba(0,0,0,.1);
+
+	--color-background: #eff3f9;
+	--color-sidebar: var(--color-theme);
+	--color-header: #fff;
+	--color-foreground: #333a4a;
+	--color-foreground-sidebar: #fff;
+	--color-dropdown: #fff;
+	--color-thumb: #787f8a;
+	--color-track: var(--color-theme);
+	--color-danger: #a83232;
+
+	--color-theme-light: rgb(47, 108, 225);
+	--color-theme: rgb(40, 92, 186);
+	--color-theme-dark: rgb(29, 67, 135);
+	--color-theme-foreground: rgb(47, 108, 225);
+
+	--red-light: rgb(179, 88, 88);
+	--red-main: rgb(161, 64, 64);
+	--red-dark: rgb(128, 45, 45);
+	--orange-light: rgb(209, 112, 71);
+	--orange-main: rgb(172, 92, 56);
+	--orange-dark: rgb(143, 72, 43);
+	--green-light: rgb(70, 161, 92);
+	--green-main: rgb(54, 126, 72);
+	--green-dark: rgb(41, 90, 53);
+	--blue-light: rgb(47, 108, 225);
+	--blue-main: rgb(40, 92, 186);
+	--blue-dark: rgb(29, 67, 135);
+	--purple-light: rgb(129, 90, 184);
+	--purple-main: rgb(98, 66, 142);
+	--purple-dark: rgb(70, 45, 103);
+	--pink-light: rgb(204, 81, 132);
+	--pink-main: rgb(168, 63, 107);
+	--pink-dark: rgb(135, 50, 85);
+}
+
+:root[data-mode="dark"] {
+	--color-background: #161b25;
+	--color-foreground: #c5ccdc;
+	--color-sidebar: #202737;
+	--color-dropdown: #1b232d;
+	--color-header: #202737;
+	--color-thumb: #3c4760;
+	--color-track: #202737;
+}
+
+:root[data-theme="red"] {
+	--color-theme-light: var(--red-light);
+	--color-theme: var(--red-main);
+	--color-theme-dark: var(--red-dark);
+}
+
+:root.dark[data-theme="red"] {
+	--color-theme-foreground: var(--red-light);
+}
+
+:root[data-theme="orange"] {
+	--color-theme-light: var(--orange-light);
+	--color-theme: var(--orange-main);
+	--color-theme-dark: var(--orange-dark);
+}
+
+:root.dark[data-theme="orange"] {
+	--color-theme-foreground: var(--orange-light);
+}
+
+:root[data-theme="green"] {
+	--color-theme-light: var(--green-light);
+	--color-theme: var(--green-main);
+	--color-theme-dark: var(--green-dark);
+}
+
+:root.dark[data-theme="green"] {
+	--color-theme-foreground: var(--green-light);
+}
+
+:root[data-theme="blue"] {
+	--color-theme-light: var(--blue-light);
+	--color-theme: var(--blue-main);
+	--color-theme-dark: var(--blue-dark);
+}
+
+:root.dark[data-theme="blue"] {
+	--color-theme-foreground: var(--blue-light);
+}
+
+:root[data-theme="purple"] {
+	--color-theme-light: var(--purple-light);
+	--color-theme: var(--purple-main);
+	--color-theme-dark: var(--purple-dark);
+}
+
+:root.dark[data-theme="purple"] {
+	--color-theme-foreground: var(--purple-light);
+}
+
+:root[data-theme="pink"] {
+	--color-theme-light: var(--pink-light);
+	--color-theme: var(--pink-main);
+	--color-theme-dark: var(--pink-dark);
+}
+
+:root.dark[data-theme="pink"] {
+	--color-theme-foreground: var(--pink-light);
+}

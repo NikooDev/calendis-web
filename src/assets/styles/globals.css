@@ -1,0 +1,155 @@
+@import "tailwindcss";
+@import "./theme.css";
+@import "./lib/tooltip.css";
+@import "./lib/dropdown.css";
+
+@layer base {
+	html {
+		@apply antialiased;
+	}
+
+	html, body {
+		@apply h-screen;
+		scrollbar-gutter: stable;
+	}
+
+	body {
+		@apply bg-background text-foreground font-medium font-default overflow-y-scroll h-[2000px];
+	}
+
+	body::-webkit-scrollbar {
+		@apply w-2 h-3;
+	}
+
+	body::-webkit-scrollbar-track {
+		@apply bg-track;
+	}
+
+	body::-webkit-scrollbar-thumb, .scrollable::-webkit-scrollbar-thumb, .scrollable:hover::-webkit-scrollbar-thumb {
+		@apply bg-thumb rounded-full border-3 border-transparent;
+	}
+
+	body {
+		transition: background-color .25s ease, color .15s ease;
+	}
+
+	header {
+		transition: left .2s ease, background-color .25s ease;
+	}
+
+	aside {
+		transition: width .2s ease;
+	}
+
+	aside > .sidebar {
+		transition: background-color .25s ease;
+	}
+
+	button:hover {
+		@apply cursor-pointer;
+	}
+
+	@supports (scrollbar-width: thin) {
+		html {
+			scrollbar-color: var(--color-thumb) var(--color-header);
+			scrollbar-width: thin;
+		}
+		textarea {
+			scrollbar-width: thin;
+			scrollbar-color: var(--color-thumb) transparent;
+		}
+	}
+}
+
+@layer utilities {
+	.scrollable {
+		scrollbar-width: thin;
+	}
+
+	[data-mode="dark"] aside .scrollable {
+		scrollbar-color: var(--color-thumb) var(--color-track);
+	}
+
+	[data-mode="light"] aside .scrollable {
+		scrollbar-color: rgba(255, 255, 255, .3) var(--color-track);
+	}
+}
+
+@layer components {
+	.tippy-box {
+		backdrop-filter: blur(8px);
+		color: #fff;
+		font-weight: 600;
+		font-size: 13px;
+		border-radius: 7px;
+	}
+
+	[data-mode="light"] .tippy-box {
+		background-color: rgba(0, 0, 0, .6);
+	}
+
+	[data-mode="dark"] .tippy-box {
+		background-color: rgba(0, 0, 0, .4);
+		backdrop-filter: blur(8px);
+		color: #c3d3ec;
+	}
+
+	.toast [data-sonner-toasts]{
+		overflow: visible;
+		contain: layout paint;
+		isolation: isolate;
+	}
+
+	[data-sonner-toast]{
+		pointer-events: auto;
+	}
+
+	.toast[data-sonner-toaster] {
+		z-index: 50!important;
+	}
+
+	.toast.dialog[data-sonner-toaster] {
+		z-index: 60!important;
+	}
+
+	.toast.bottom[data-sonner-toaster] {
+		z-index: 70!important;
+	}
+
+	.toast.dialog [data-sonner-toast] {
+		@apply dark:bg-[#eff3f9] dark:text-[#222427] bg-white text-foreground;
+	}
+
+	.toast [data-sonner-toast] {
+		@apply flex items-center dark:bg-[#eff3f9] dark:text-[#131920] bg-[#2C3747] text-[#eff3f9] text-sm rounded-1xl shadow-md;
+		width: var(--toast-width);
+		transition-property: transform, opacity;
+		transition-duration: .4s, .4s !important;
+		transition-timing-function: cubic-bezier(.34, 1.30, .66, 1) !important;
+		backface-visibility: hidden;
+		will-change: transform, opacity;
+	}
+
+	.toast [data-content] {
+		@apply w-full;
+	}
+
+	.toast [data-sonner-toast] {
+		@apply box-border bg-clip-padding;
+	}
+
+	.toast [data-sonner-toast][data-expanded="false"][data-removed="false"][data-front="false"] > [data-icon],
+	.toast [data-sonner-toast][data-expanded="false"][data-removed="false"][data-front="false"] > [data-content] {
+		@apply transition-opacity duration-150 opacity-0;
+	}
+
+	.toast [data-sonner-toast][data-removed="true"],
+	.toast [data-sonner-toast][data-swipe-out="true"],
+	.toast [data-sonner-toast][data-swiping="true"] {
+		@apply overflow-visible;
+	}
+
+	.toast [data-sonner-toast][data-removed="false"][data-expanded="false"] {
+		@apply overflow-hidden;
+	}
+}
