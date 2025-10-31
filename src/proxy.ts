@@ -44,19 +44,6 @@ class CalendisProxy {
 		return publicPaths.includes(this.pathname);
 	}
 
-	private isAsset() {
-		return (
-			this.pathname.startsWith('/_next') ||
-			this.pathname.startsWith('/api') ||
-			this.pathname === '/favicon.ico' ||
-			this.pathname.startsWith('/icons') ||
-			this.pathname.startsWith('/static') ||
-			this.pathname === '/manifest.webmanifest' ||
-			this.pathname === '/robots.txt' ||
-			this.pathname === '/sitemap.xml'
-		);
-	}
-
 	private withPathHeader(res: NextResponse) {
 		if (this.isApp) res.headers.set('x-pathname', this.pathname);
 		return res;
@@ -78,8 +65,6 @@ class CalendisProxy {
 	}
 
 	public handle() {
-		if (this.isAsset()) return NextResponse.next();
-
 		if (this.isProd) {
 			if (!this.isApp && this.pathname.startsWith('/app')) {
 				const cleanPath = this.pathname.replace(/^\/app/, '') || '/';
