@@ -15,7 +15,7 @@ const metadatas = (config?: ConfigMetadatas): Metadata => {
 	const { title: t, description: d, index = true, follow = true } = config ?? {};
 
 	return {
-		metadataBase: Env.isEnvironment('production') ? 'https://www.calendis.fr' : '/',
+		metadataBase: Env.isEnvironment('production') ? new URL('https://www.calendis.fr') : new URL('http://localhost:3000'),
 		title: t ?? defaultTitle,
 		description: d ?? defaultDescription,
 		robots: {
