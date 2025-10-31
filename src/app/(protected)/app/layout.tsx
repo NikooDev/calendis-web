@@ -9,6 +9,8 @@ import Breadcrumbs from '@Calendis/components/ui/breadcrumbs/Breadcrumbs';
 const ProtectedLayout = ({ children }: ChildrenProp) => {
 	const pathname = use(headers()).get('x-pathname');
 
+	console.log(pathname);
+
 	if (pathname && pathname.startsWith('/app/login')) {
 		return (
 			<main>
