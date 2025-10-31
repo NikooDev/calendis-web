@@ -66,6 +66,8 @@ class CalendisProxy {
 
 	public handle() {
 		if (this.isProd) {
+			console.log(this.hostname);
+
 			if (!this.isApp && this.pathname.startsWith('/app')) {
 				const cleanPath = this.pathname.replace(/^\/app/, '') || '/';
 				const dest = new URL(cleanPath, `https://app.${this.domain}`);
