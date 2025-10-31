@@ -49,6 +49,7 @@ class CalendisProxy {
 			this.pathname.startsWith('/_next') ||
 			this.pathname.startsWith('/api') ||
 			this.pathname === '/favicon.ico' ||
+			this.pathname.startsWith('/icons') ||
 			this.pathname.startsWith('/static') ||
 			this.pathname === '/manifest.webmanifest' ||
 			this.pathname === '/robots.txt' ||
@@ -134,6 +135,6 @@ export const proxy = (req: NextRequest) => {
 
 export const config = {
 	matcher: [
-		'/((?!_next|api|favicon\\.ico|robots\\.txt|sitemap\\.xml|static).*)',
+		'/((?!_next|api|favicon\\.ico|robots\\.txt|sitemap\\.xml|static|icons|manifest\\.webmanifest).*)',
 	],
 };
