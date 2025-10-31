@@ -5,13 +5,13 @@ import Header from '@Calendis/components/protected/partials/Header';
 import Sidebar from '@Calendis/components/protected/partials/Sidebar';
 import Container from '@Calendis/components/protected/partials/Container';
 import Breadcrumbs from '@Calendis/components/ui/breadcrumbs/Breadcrumbs';
+import Env from '@Calendis/lib/hybrid/env';
 
 const ProtectedLayout = ({ children }: ChildrenProp) => {
 	const pathname = use(headers()).get('x-pathname');
+	const url = Env.isEnvironment('production') ? '/login' : '/app/login';
 
-	console.log(pathname);
-
-	if (pathname && pathname.startsWith('/app/login')) {
+	if (pathname && pathname.startsWith(url)) {
 		return (
 			<main>
 				{ children }
