@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { ConfigMetadatas } from '@Calendis/types/app';
+import Env from '@Calendis/lib/hybrid/env';
 
 const defaultTitle = 'Calendis';
 const defaultDescription = 'L\'application unique pour planifier la distribution du calendrier, gérer vos événements et suivre la vie de l’amicale.';
@@ -14,6 +15,7 @@ const metadatas = (config?: ConfigMetadatas): Metadata => {
 	const { title: t, description: d, index = true, follow = true } = config ?? {};
 
 	return {
+		metadataBase: Env.isEnvironment('production') ? 'https://www.calendis.fr' : '/',
 		title: t ?? defaultTitle,
 		description: d ?? defaultDescription,
 		robots: {
