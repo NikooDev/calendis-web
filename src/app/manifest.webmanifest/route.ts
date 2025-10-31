@@ -5,14 +5,12 @@ export async function GET(req: NextRequest) {
 
 	const isApp = host.startsWith('app.');
 	const startUrl = isApp ? '/app' : '/';
-	const scope = isApp ? '/app/' : '/';
 
 	return NextResponse.json({
 		name: 'Calendis',
 		short_name: 'Calendis',
 		description: 'La planification connectée des tournées de calendriers.',
 		start_url: startUrl,
-		scope,
 		display: 'standalone',
 		background_color: '#fff',
 		theme_color: '#131920',
