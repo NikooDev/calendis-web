@@ -49,7 +49,10 @@ class CalendisProxy {
 			this.pathname.startsWith('/_next') ||
 			this.pathname.startsWith('/api') ||
 			this.pathname === '/favicon.ico' ||
-			this.pathname.startsWith('/static')
+			this.pathname.startsWith('/static') ||
+			this.pathname === '/manifest.webmanifest' ||
+			this.pathname === '/robots.txt' ||
+			this.pathname === '/sitemap.xml'
 		);
 	}
 
