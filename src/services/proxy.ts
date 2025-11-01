@@ -92,66 +92,38 @@ class CalendisProxy {
 		return this.headerPathname(NextResponse.rewrite(nextUrl));
 	}
 
-	public handle(): NextResponse {
-		console.log('hostname', this.hostname);
-		console.log('pathname', this.pathname);
-		console.log('isProduction', this.isProduction());
-		console.log('isTesting', this.isTesting());
-		console.log('isDevelopment', this.isDevelopment());
-		console.log('isSubDomain app', this.isSubDomain('app'));
-		console.log('isSubDomain demo', this.isSubDomain('demo'));
-		console.log('isUser', this.isUser());
-		console.log('isPublicPath', this.isPublicPath());
+	private handleSubdomain(type: 'app' | 'demo') {
+		const isUser = type === 'app' ? this.isUser() : this.isDemoUser();
 
+		if (this.pathname === '/') {
+			return isUser ? this.redirect('/welcome') : this.redirect('/login');
+		}
+
+		if (this.pathname.startsWith('/app')) {
+			return this.rewrite('/404');
+		}
+
+		if (!isUser && !this.isPublicPath()) {
+			return this.redirect('/login');
+		}
+
+		if (isUser && this.isPublicPath()) {
+			return this.redirect('/welcome');
+		}
+
+		return this.rewrite(`/app${this.pathname}`);
+	}
+
+	public handle(): NextResponse {
 		if (this.isProduction()) {
 			// app.calendis.fr
 			if (this.isSubDomain('app')) {
-				// Racine du sous-domaine
-				if (this.pathname === '/') {
-					return this.isUser() ? this.redirect('/welcome') : this.redirect('/login');
-				}
-
-				// Route /app du sous domaine
-				if (this.pathname.startsWith('/app')) {
-					return this.rewrite('/404');
-				}
-
-				// Utilisateur non connecté sur app.calendis.fr
-				if (!this.isUser() && !this.isPublicPath()) {
-					return this.redirect('/login');
-				}
-
-				// Utilisateur connecté sur app.calendis.fr
-				if (this.isUser() && this.isPublicPath()) {
-					return this.redirect('/welcome');
-				}
-
-				return this.rewrite(`/app${this.pathname}`);
+				return this.handleSubdomain('app');
 			}
 
 			// demo.calendis.fr
 			if (this.isSubDomain('demo')) {
-				if (this.pathname === '/') {
-					return this.isDemoUser() ? this.redirect('/welcome') : this.redirect('/login');
-				}
-
-				if (this.pathname.startsWith('/app')) {
-					return this.rewrite('/404');
-				}
-
-				if (!this.isDemoUser() && !this.isPublicPath()) {
-					return this.rewrite('/login');
-				}
-
-				if (this.isDemoUser() && this.isPublicPath()) {
-					return this.rewrite('/welcome');
-				}
-
-				return this.rewrite(`/app${this.pathname}`);
-			}
-
-			if (this.pathname.startsWith('/app')) {
-				return this.rewrite('/404');
+				return this.handleSubdomain('demo');
 			}
 
 			// www.calendis.fr
@@ -164,6 +136,8 @@ class CalendisProxy {
 		}
 
 		if (this.isDevelopment()) {
+
+
 			return this.next();
 		}
 

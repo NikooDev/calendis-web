@@ -1,5 +1,6 @@
 import React, { use } from 'react';
-import { headers } from 'next/headers'
+import { headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import type { ChildrenProp } from '@Calendis/types/app';
 import Header from '@Calendis/components/protected/partials/Header';
 import Sidebar from '@Calendis/components/protected/partials/Sidebar';
@@ -9,9 +10,10 @@ import Env from '@Calendis/lib/hybrid/env';
 
 const ProtectedLayout = ({ children }: ChildrenProp) => {
 	const pathname = use(headers()).get('pathname');
+	const userCookie = use(cookies()).get('user');
 	const url = Env.isEnvironment('production') ? '/login' : '/app/login';
 
-	if (pathname && pathname.startsWith(url)) {
+	if ((pathname && pathname.startsWith(url)) && (userCookie && userCookie.value)) {
 		return (
 			<main>
 				{ children }
