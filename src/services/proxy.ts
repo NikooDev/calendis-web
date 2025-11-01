@@ -87,6 +87,7 @@ class CalendisProxy {
 	}
 
 	public handle(): NextResponse {
+		console.log('pathname', this.pathname);
 		console.log('isProduction', this.isProduction());
 		console.log('isTesting', this.isTesting());
 		console.log('isDevelopment', this.isDevelopment());
