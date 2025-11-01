@@ -14,8 +14,7 @@ const run = async () => {
 			message: 'Choisir l\'environnement :',
 			choices: [
 				{ name: 'development', value: 'development' },
-				{ name: 'testing', value: 'testing' },
-				{ name: 'production', value: 'production' }
+				{ name: 'testing', value: 'testing' }
 			],
 			default: 'development'
 		},

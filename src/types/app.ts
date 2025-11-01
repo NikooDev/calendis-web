@@ -36,6 +36,9 @@ export type CookieClientOptions = {
 	sameSite?: 'Strict' | 'Lax' | 'None';
 };
 
+export type EnvironmentsNode = 'production' | 'development';
+export type EnvironmentsApp = 'production' | 'development' | 'testing';
+
 /**
  * Represents an application environment.
  */
