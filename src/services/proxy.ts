@@ -123,7 +123,7 @@ class CalendisProxy {
 					return this.redirect('/welcome');
 				}
 
-				return this.next();
+				return this.rewrite(`/app${this.pathname}`);
 			}
 
 			// demo.calendis.fr
