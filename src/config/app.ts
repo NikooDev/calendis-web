@@ -4,8 +4,7 @@ import type { CookieClientOptions } from '@Calendis/types/app';
 export const hostname = {
 	development: 'localhost:3000',
 	testing: 'calendis-web.vercel.app',
-	production: 'www.calendis.fr',
-	demo: 'demo.calendis.fr'
+	production: ['www.calendis.fr', 'app.calendis.fr', 'demo.calendis.fr'] as const
 }
 
 /**

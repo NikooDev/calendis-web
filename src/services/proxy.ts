@@ -27,10 +27,11 @@ class CalendisProxy {
 		if (nodeEnv === 'production' && appEnv === 'testing') return 'testing';
 		if (nodeEnv === 'development' && appEnv === 'development') return 'development';
 
+		if (Array.isArray(hostname.production) && hostname.production.includes(this.hostname)) {
+			return 'production';
+		}
+
 		switch (this.hostname) {
-			case hostname.demo:
-			case hostname.production:
-				return 'production';
 			case hostname.testing:
 				return 'testing';
 			case hostname.development.replace(':3000', ''):
@@ -44,7 +45,7 @@ class CalendisProxy {
 	}
 
 	private isProduction(): boolean {
-		return this.env === 'production' && this.hostname === hostname.production;
+		return this.env === 'production' && Array.isArray(hostname.production) && hostname.production.includes(this.hostname);
 	}
 
 	private isTesting(): boolean {
