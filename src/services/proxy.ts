@@ -77,7 +77,9 @@ class CalendisProxy {
 	}
 
 	private headerPathname(res: NextResponse) {
-		if (this.isSubDomain('app')) res.headers.set('pathname', this.pathname);
+		if (this.isSubDomain('app') || this.isSubDomain('demo')) {
+			res.headers.set('pathname', this.pathname);
+		}
 		return res;
 	}
 
