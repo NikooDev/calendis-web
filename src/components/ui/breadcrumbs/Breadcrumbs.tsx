@@ -51,7 +51,7 @@ const Breadcrumbs = ({
 	return (
 		<nav aria-label="Breadcrumb" className={ cl(className, 'px-0') }>
 			<ol className="flex flex-wrap items-center gap-1 h-6 text-sm text-muted-foreground">
-				<Link href="/app" aria-current="page" className="font-semibold hover:underline select-none">
+				<Link href={'/welcome'} aria-current="page" className="font-semibold hover:underline select-none">
 					Accueil
 				</Link>
 				<span className="select-none" aria-hidden>
@@ -69,7 +69,7 @@ const Breadcrumbs = ({
               </span>
 						) }
 						{ c.link && c.href ? (
-							<Link href={ c.href === '/app' ? '/app/dashboard' : c.href } className="font-semibold hover:underline select-none">
+							<Link href={ c.href } className="font-semibold hover:underline select-none">
 								{ c.label }
 							</Link>
 						) : (
