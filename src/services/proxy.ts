@@ -66,7 +66,7 @@ class CalendisProxy {
 	}
 
 	public isRootDomain() {
-		return hostname.production.some((urls) => urls === 'www.calendis.fr');
+		return hostname.production.some((urls) => urls === this.hostname);
 	}
 
 	private isPublicPath() {
