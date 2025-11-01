@@ -123,6 +123,20 @@ class CalendisProxy {
 
 	public handle(): NextResponse {
 		if (this.isProduction()) {
+			// www.calendis.fr/app
+			if (this.isRootDomain()) {
+				if (this.pathname === '/app' || this.pathname.startsWith('/app/')) {
+					const newPath = this.pathname.replace(/^\/app/, '') || '/';
+					const redirectUrl = new URL(newPath, 'https://app.calendis.fr');
+
+					redirectUrl.search = this.url.search;
+
+					return this.redirect(redirectUrl);
+				}
+
+				return this.next();
+			}
+
 			// app.calendis.fr
 			if (this.isSubDomain('app')) {
 				return this.handleSubdomain('app');
@@ -144,19 +158,6 @@ class CalendisProxy {
 
 		if (this.isDevelopment()) {
 
-
-			return this.next();
-		}
-
-		if (this.isRootDomain()) {
-			if (this.pathname === '/app' || this.pathname.startsWith('/app/')) {
-				const newPath = this.pathname.replace(/^\/app/, '') || '/';
-				const redirectUrl = new URL(newPath, 'https://app.calendis.fr');
-
-				redirectUrl.search = this.url.search;
-
-				return this.redirect(redirectUrl);
-			}
 
 			return this.next();
 		}
