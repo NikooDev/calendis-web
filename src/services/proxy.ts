@@ -67,6 +67,10 @@ class CalendisProxy {
 	get hasUser(): boolean {
 		return Boolean(this.cookieUser && this.cookieUser.trim() !== '');
 	}
+
+	public handle(): void {
+
+	}
 }
 
 export default CalendisProxy;
