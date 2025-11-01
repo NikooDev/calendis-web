@@ -1,11 +1,18 @@
 #!/usr/bin/env node
-import inquirer from 'inquirer';
 import { execSync } from 'child_process';
+import inquirer from 'inquirer';
 
 const YELLOW = '\x1b[33m';
 const GREEN = '\x1b[32m';
 const RESET = '\x1b[0m';
 
+// Build Vercel
+if (process.env.VERCEL_ENV) {
+	execSync('next build', { stdio: 'inherit' });
+	process.exit(0);
+}
+
+// Build local
 const run = async () => {
 	const { environment } = await inquirer.prompt([
 		{
@@ -28,7 +35,6 @@ const run = async () => {
 	process.env.NEXT_PUBLIC_ENVIRONMENT = environment;
 
 	try {
-		// noinspection JSCheckFunctionSignatures
 		execSync('npx next build', { stdio: 'inherit', env: process.env });
 		console.log('');
 		console.log(`${GREEN}✅ Build terminé avec succès pour ${environment}!${RESET}`);
