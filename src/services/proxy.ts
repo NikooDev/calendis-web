@@ -87,19 +87,37 @@ class CalendisProxy {
 	}
 
 	public handle(): NextResponse {
+		console.log('isProduction', this.isProduction());
+		console.log('isTesting', this.isTesting());
+		console.log('isDevelopment', this.isDevelopment());
+		console.log('isSubDomain app', this.isSubDomain('app'));
+		console.log('isSubDomain demo', this.isSubDomain('demo'));
+		console.log('usUser', this.isUser());
+		console.log('isPublicPath', this.isPublicPath());
+
 		if (this.isProduction()) {
 			// app.calendis.fr
 			if (this.isSubDomain('app')) {
+				// Racine du sous-domaine
+				if (this.pathname === '/') {
+					return this.isUser()
+						? this.redirect('/welcome')
+						: this.redirect('/login');
+				}
+
+				// Route /app du sous domaine
+				if (this.pathname.startsWith('/app')) {
+					return this.rewrite('/404');
+				}
+
+				// Utilisateur non connecté sur app.calendis.fr
 				if (!this.isUser() && !this.isPublicPath()) {
-					return this.redirect('/app/login');
+					return this.redirect('/login');
 				}
 
+				// Utilisateur connecté sur app.calendis.fr
 				if (this.isUser() && this.isPublicPath()) {
-					return this.redirect('/app');
-				}
-
-				if (!this.pathname.startsWith('/app')) {
-					return this.rewrite(`/app${this.pathname}`);
+					return this.redirect('/welcome');
 				}
 
 				return this.next();
@@ -112,6 +130,10 @@ class CalendisProxy {
 				}
 
 				return this.next();
+			}
+
+			if (this.pathname.startsWith('/app')) {
+				return this.rewrite('/404');
 			}
 
 			// www.calendis.fr
