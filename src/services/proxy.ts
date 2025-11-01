@@ -18,6 +18,7 @@ class CalendisProxy {
 		this.hostname = this.url.hostname;
 		this.origin = this.url.origin;
 		this.cookieUser = req.cookies.get('user')?.value;
+		this.cookieDemo = req.cookies.get('demo')?.value;
 	}
 
 	get env(): EnvironmentsApp {

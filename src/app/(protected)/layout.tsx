@@ -19,10 +19,6 @@ const ProtectedLayout = ({ children }: ChildrenProp) => {
 	const activeCookie = isAppDomain ? userCookie : demoCookie;
 	const isUserConnected = Boolean(activeCookie?.value);
 
-	console.log(url);
-	console.log(demoCookie);
-	console.log(hostname);
-
 	if (pathname && pathname.startsWith(url) && !isUserConnected) {
 		return (
 			<main>
