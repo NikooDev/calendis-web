@@ -51,7 +51,7 @@ const Breadcrumbs = ({
 	return (
 		<nav aria-label="Breadcrumb" className={ cl(className, 'px-0') }>
 			<ol className="flex flex-wrap items-center gap-1 h-6 text-sm text-muted-foreground">
-				<Link href="/" aria-current="page" className="font-semibold hover:underline select-none">
+				<Link href="/app" aria-current="page" className="font-semibold hover:underline select-none">
 					Accueil
 				</Link>
 				<span className="select-none" aria-hidden>

@@ -32,7 +32,7 @@ const ProtectedLayout = ({ children }: ChildrenProp) => {
 			<Header/>
 			<Sidebar/>
 			<Container>
-				<Breadcrumbs overrides={{ dashboard: 'Tableau de bord', onboarding: 'Bienvenue' }} hiddenOn={['app']} className="mb-6"/>
+				<Breadcrumbs overrides={{ dashboard: 'Tableau de bord', welcome: 'Applications' }} hiddenOn={['app']} className="mb-6"/>
 				{ children }
 			</Container>
 		</>

@@ -1,11 +1,5 @@
-import React from 'react';
-
 const AppPage = () => {
-	return (
-		<section>
-
-		</section>
-	);
+	return null;
 };
 
 export default AppPage;

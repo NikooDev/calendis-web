@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { EnvironmentsApp, EnvironmentsNode, MiddlewareResponseInit } from '@Calendis/types/app';
 import { publicPaths, hostname } from '@Calendis/config/app';
+import { util } from 'protobufjs';
+import Array = util.Array;
 
 class CalendisProxy {
 	private readonly url: URL;
@@ -29,7 +31,7 @@ class CalendisProxy {
 		if (nodeEnv === 'production' && appEnv === 'testing') return 'testing';
 		if (nodeEnv === 'development' && appEnv === 'development') return 'development';
 
-		if (Array.isArray(hostname.production) && hostname.production.includes(this.hostname)) {
+		if (hostname.production.some((urls) => urls === this.hostname)) {
 			return 'production';
 		}
 
@@ -47,7 +49,7 @@ class CalendisProxy {
 	}
 
 	private isProduction(): boolean {
-		return this.env === 'production' && Array.isArray(hostname.production) && hostname.production.includes(this.hostname);
+		return this.env === 'production' && hostname.production.some((urls) => urls === this.hostname);
 	}
 
 	private isTesting(): boolean {
@@ -63,6 +65,10 @@ class CalendisProxy {
 		const parts = this.hostname.split('.');
 
 		return parts.length === 3 && parts[0] === prefix;
+	}
+
+	public isRootDomain() {
+		return hostname.production.some((urls) => urls === 'www.calendis.fr');
 	}
 
 	private isPublicPath() {
@@ -140,6 +146,19 @@ class CalendisProxy {
 
 		if (this.isDevelopment()) {
 
+
+			return this.next();
+		}
+
+		if (this.isRootDomain()) {
+			if (this.pathname === '/app' || this.pathname.startsWith('/app/')) {
+				const newPath = this.pathname.replace(/^\/app/, '') || '/';
+				const redirectUrl = new URL(newPath, 'https://app.calendis.fr');
+
+				redirectUrl.search = this.url.search;
+
+				return this.redirect(redirectUrl);
+			}
 
 			return this.next();
 		}
