@@ -11,9 +11,11 @@ import Env from '@Calendis/lib/hybrid/env';
 const ProtectedLayout = ({ children }: ChildrenProp) => {
 	const pathname = use(headers()).get('pathname');
 	const userCookie = use(cookies()).get('user');
+	const demoCookie = use(cookies()).get('demo');
 	const url = Env.isEnvironment('production') ? '/login' : '/app/login';
+	const isUserConnected = Boolean(userCookie?.value || demoCookie?.value);
 
-	if ((pathname && pathname.startsWith(url)) && (userCookie && userCookie.value)) {
+	if (pathname && pathname.startsWith(url) && isUserConnected) {
 		return (
 			<main>
 				{ children }
