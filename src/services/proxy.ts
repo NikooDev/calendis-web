@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import type { EnvironmentsApp, EnvironmentsNode, MiddlewareResponseInit } from '@Calendis/types/app';
 import { publicPaths, hostname } from '@Calendis/config/app';
-import { util } from 'protobufjs';
-import Array = util.Array;
 
 class CalendisProxy {
 	private readonly url: URL;
