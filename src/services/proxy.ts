@@ -8,6 +8,7 @@ class CalendisProxy {
 	private readonly hostname: string;
 	private readonly origin: string;
 	private readonly cookieUser?: string;
+	private readonly cookieDemo?: string;
 	private readonly next: (opts?: MiddlewareResponseInit) =>
 		NextResponse = (opts) => NextResponse.next(opts);
 
@@ -71,6 +72,10 @@ class CalendisProxy {
 		return Boolean(this.cookieUser && this.cookieUser.trim() !== '');
 	}
 
+	private isDemoUser(): boolean {
+		return Boolean(this.cookieDemo && this.cookieDemo.trim() !== '');
+	}
+
 	private headerPathname(res: NextResponse) {
 		if (this.isSubDomain('app')) res.headers.set('pathname', this.pathname);
 		return res;
@@ -127,12 +132,19 @@ class CalendisProxy {
 			// demo.calendis.fr
 			if (this.isSubDomain('demo')) {
 				if (this.pathname === '/') {
-					return this.rewrite('/app');
+					return this.isDemoUser() ? this.redirect('/welcome') : this.redirect('/login');
 				}
 
-				if (!this.pathname.startsWith('/app')) {
-					const newPath = `/app${this.pathname}`;
-					return this.rewrite(newPath);
+				if (this.pathname.startsWith('/app')) {
+					return this.rewrite('/404');
+				}
+
+				if (!this.isDemoUser() && !this.isPublicPath()) {
+					return this.rewrite('/login');
+				}
+
+				if (this.isDemoUser() && this.isPublicPath()) {
+					return this.rewrite('/welcome');
 				}
 
 				return this.rewrite(`/app${this.pathname}`);
@@ -147,7 +159,8 @@ class CalendisProxy {
 		}
 
 		if (this.isTesting()) {
-
+			// Si user existe et si user.role === "super-admin" ->
+			// Requête handler route.ts alors on affiche calendis-web.vercel.app
 		}
 
 		if (this.isDevelopment()) {
