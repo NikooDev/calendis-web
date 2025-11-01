@@ -1,6 +1,13 @@
 import Env from '@Calendis/lib/hybrid/env';
 import type { CookieClientOptions } from '@Calendis/types/app';
 
+export const hostname = {
+	development: 'localhost:3000',
+	testing: 'calendis-web.vercel.app',
+	production: 'www.calendis.fr',
+	demo: 'demo.calendis.fr'
+}
+
 /**
  * Public paths
  */

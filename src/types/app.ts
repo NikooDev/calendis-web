@@ -1,5 +1,6 @@
 import React from 'react';
-import type { environments } from '@Calendis/config/app';
+import { type environments, hostname } from '@Calendis/config/app';
+import type { RequestCookies } from 'next/dist/compiled/@edge-runtime/cookies';
 
 /**
  * React children property
@@ -36,8 +37,14 @@ export type CookieClientOptions = {
 	sameSite?: 'Strict' | 'Lax' | 'None';
 };
 
-export type EnvironmentsNode = 'production' | 'development';
-export type EnvironmentsApp = 'production' | 'development' | 'testing';
+export type EnvironmentsNode = keyof Omit<typeof hostname, 'testing'>;
+export type EnvironmentsApp = keyof typeof hostname;
+
+export interface MiddlewareResponseInit {
+	request: {
+		headers: Headers;
+	}
+}
 
 /**
  * Represents an application environment.

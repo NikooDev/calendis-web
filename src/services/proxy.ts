@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { publicPaths } from '@Calendis/config/app';
-import type { EnvironmentsApp, EnvironmentsNode } from '@Calendis/types/app';
+import type { EnvironmentsApp, EnvironmentsNode, MiddlewareResponseInit } from '@Calendis/types/app';
+import { publicPaths, hostname } from '@Calendis/config/app';
 
 class CalendisProxy {
 	private readonly url: URL;
@@ -8,6 +8,8 @@ class CalendisProxy {
 	private readonly hostname: string;
 	private readonly origin: string;
 	private readonly cookieUser?: string;
+	private readonly next: (opts?: MiddlewareResponseInit) =>
+		NextResponse = (opts) => NextResponse.next(opts);
 
 	constructor(req: NextRequest) {
 		this.url = req.nextUrl.clone();
@@ -21,55 +23,110 @@ class CalendisProxy {
 		const appEnv = process.env.NEXT_PUBLIC_ENVIRONMENT as EnvironmentsApp;
 		const nodeEnv = process.env.NODE_ENV as EnvironmentsNode;
 
-		if (nodeEnv === 'production' && appEnv === 'production') {
-			return 'production';
-		}
+		if (nodeEnv === 'production' && appEnv === 'production') return 'production';
+		if (nodeEnv === 'production' && appEnv === 'testing') return 'testing';
+		if (nodeEnv === 'development' && appEnv === 'development') return 'development';
 
-		if (nodeEnv === 'production' && appEnv === 'testing') {
-			return 'testing';
+		switch (this.hostname) {
+			case hostname.demo:
+			case hostname.production:
+				return 'production';
+			case hostname.testing:
+				return 'testing';
+			case hostname.development.replace(':3000', ''):
+			case hostname.development:
+				return 'development';
+			default:
+				if (this.hostname.endsWith('.vercel.app')) return 'testing';
+				if (this.hostname.endsWith('calendis.fr')) return 'production';
+				return 'development';
 		}
-
-		if (nodeEnv === 'development' && appEnv === 'development') {
-			return 'development';
-		}
-
-		if (this.hostname.endsWith('.vercel.app')) {
-			return 'testing';
-		}
-
-		if (this.hostname.endsWith('calendis.fr')) {
-			return 'production';
-		}
-
-		if (this.hostname === 'localhost') {
-			return 'development';
-		}
-
-		return 'development';
 	}
 
-	get isProduction(): boolean {
-		return this.env === 'production' && this.hostname === 'www.calendis.fr';
+	private isProduction(): boolean {
+		return this.env === 'production' && this.hostname === hostname.production;
 	}
 
-	get isTesting(): boolean {
-		return this.env === 'testing' && this.hostname.endsWith('.vercel.app');
+	private isTesting(): boolean {
+		return this.env === 'testing' && this.hostname === hostname.testing;
 	}
 
-	/*get isSubDomain(prefix: string): boolean {
-		if (this.isProduction) {
+	private isDevelopment(): boolean {
+		return this.env === 'development' && this.hostname === hostname.development;
+	}
 
-		} else {
+	private isSubDomain(prefix: 'app' | 'demo'): boolean {
+		if (!this.isProduction) return false;
+		const parts = this.hostname.split('.');
 
-		}
-	}*/
+		return parts.length === 3 && parts[0] === prefix;
+	}
 
-	get hasUser(): boolean {
+	private isPublicPath() {
+		return publicPaths.includes(this.pathname);
+	}
+
+	private isUser(): boolean {
 		return Boolean(this.cookieUser && this.cookieUser.trim() !== '');
 	}
 
-	public handle(): void {
+	private headerPathname(res: NextResponse) {
+		if (this.isSubDomain('app')) res.headers.set('pathname', this.pathname);
+		return res;
+	}
 
+	private redirect(to: string | URL, status = 303) {
+		const dest = to instanceof URL ? to : new URL(to, this.origin);
+		return this.isSubDomain('app') ? this.headerPathname(NextResponse.redirect(dest, { status })) : NextResponse.redirect(dest, { status });
+	}
+
+	private rewrite(path: string) {
+		const nextUrl = new URL(this.url);
+		nextUrl.pathname = path;
+		return this.headerPathname(NextResponse.rewrite(nextUrl));
+	}
+
+	public handle(): NextResponse {
+		if (this.isProduction()) {
+			// app.calendis.fr
+			if (this.isSubDomain('app')) {
+				if (!this.isUser() && !this.isPublicPath()) {
+					return this.redirect('/app/login');
+				}
+
+				if (this.isUser() && this.isPublicPath()) {
+					return this.redirect('/app');
+				}
+
+				if (!this.pathname.startsWith('/app')) {
+					return this.rewrite(`/app${this.pathname}`);
+				}
+
+				return this.next();
+			}
+
+			// demo.calendis.fr
+			if (this.isSubDomain('demo')) {
+				if (!this.pathname.startsWith('/demo')) {
+					return this.rewrite(`/demo${this.pathname}`);
+				}
+
+				return this.next();
+			}
+
+			// www.calendis.fr
+			return this.next();
+		}
+
+		if (this.isTesting()) {
+
+		}
+
+		if (this.isDevelopment()) {
+			return this.next();
+		}
+
+		return this.next();
 	}
 }
 
