@@ -109,7 +109,7 @@ class CalendisProxy {
 				}
 
 				// Route /app du sous domaine
-				if (this.pathname.startsWith('/app') && this.pathname !== '/login') {
+				if (this.pathname.startsWith('/app')) {
 					return this.rewrite('/404');
 				}
 
