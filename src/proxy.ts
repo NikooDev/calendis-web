@@ -65,9 +65,6 @@ class CalendisProxy {
 	}
 
 	public handle() {
-		console.log('NODE_ENV', process.env.NODE_ENV);
-		console.log('NEXT_PUBLIC_ENVIRONMENT', process.env.NEXT_PUBLIC_ENVIRONMENT);
-
 		if (this.isProd) {
 			console.log(this.hostname);
 
