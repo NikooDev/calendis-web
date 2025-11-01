@@ -103,9 +103,7 @@ class CalendisProxy {
 			if (this.isSubDomain('app')) {
 				// Racine du sous-domaine
 				if (this.pathname === '/') {
-					return this.isUser()
-						? this.redirect('/welcome')
-						: this.redirect('/login');
+					return this.isUser() ? this.redirect('/welcome') : this.redirect('/login');
 				}
 
 				// Route /app du sous domaine

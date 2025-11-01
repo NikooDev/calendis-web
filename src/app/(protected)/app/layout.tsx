@@ -8,7 +8,7 @@ import Breadcrumbs from '@Calendis/components/ui/breadcrumbs/Breadcrumbs';
 import Env from '@Calendis/lib/hybrid/env';
 
 const ProtectedLayout = ({ children }: ChildrenProp) => {
-	const pathname = use(headers()).get('x-pathname');
+	const pathname = use(headers()).get('pathname');
 	const url = Env.isEnvironment('production') ? '/login' : '/app/login';
 
 	if (pathname && pathname.startsWith(url)) {
