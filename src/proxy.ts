@@ -76,7 +76,13 @@ class CalendisProxy {
 
 			if (this.isApp) {
 				if (this.pathname === '/') {
-					if (!this.hasUser) return this.redirect('/login', 303);
+					if (!this.hasUser) {
+						console.log('origin',this.origin);
+						const redirectTo = `${this.origin}/welcome`;
+						const loginUrl = new URL(`/login?redirect=${encodeURIComponent(redirectTo)}`, this.origin);
+						return this.withPathHeader(NextResponse.redirect(loginUrl, 303));
+					}
+
 					return this.rewrite('/app');
 				}
 
