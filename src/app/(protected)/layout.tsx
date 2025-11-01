@@ -9,11 +9,15 @@ import Breadcrumbs from '@Calendis/components/ui/breadcrumbs/Breadcrumbs';
 import Env from '@Calendis/lib/hybrid/env';
 
 const ProtectedLayout = ({ children }: ChildrenProp) => {
-	const pathname = use(headers()).get('pathname');
+	const header = use(headers());
+	const pathname = header.get('pathname');
+	const hostname = header.get('host') ?? '';
+	const isAppDomain = hostname.startsWith('app.');
 	const userCookie = use(cookies()).get('user');
 	const demoCookie = use(cookies()).get('demo');
 	const url = Env.isEnvironment('production') ? '/login' : '/app/login';
-	const isUserConnected = Boolean(userCookie?.value || demoCookie?.value);
+	const activeCookie = isAppDomain ? userCookie : demoCookie;
+	const isUserConnected = Boolean(activeCookie?.value);
 
 	if (pathname && pathname.startsWith(url) && isUserConnected) {
 		return (
