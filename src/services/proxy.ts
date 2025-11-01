@@ -126,11 +126,16 @@ class CalendisProxy {
 
 			// demo.calendis.fr
 			if (this.isSubDomain('demo')) {
-				if (!this.pathname.startsWith('/demo')) {
-					return this.rewrite(`/demo${this.pathname}`);
+				if (this.pathname === '/') {
+					return this.rewrite('/app');
 				}
 
-				return this.next();
+				if (!this.pathname.startsWith('/app')) {
+					const newPath = `/app${this.pathname}`;
+					return this.rewrite(newPath);
+				}
+
+				return this.rewrite(`/app${this.pathname}`);
 			}
 
 			if (this.pathname.startsWith('/app')) {

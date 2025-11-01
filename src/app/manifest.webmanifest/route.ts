@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
 	return NextResponse.json({
 		name: 'Calendis',
 		short_name: 'Calendis',
-		description: 'La planification connectée des tournées de calendriers.',
+		description: 'L\'application unique pour planifier la distribution du calendrier, gérer vos événements et suivre la vie de l’amicale.',
 		start_url: startUrl,
 		display: 'standalone',
 		background_color: '#fff',
