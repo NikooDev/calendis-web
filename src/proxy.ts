@@ -49,13 +49,9 @@ class CalendisProxy {
 		return res;
 	}
 
-	private redirect(path: string, status = 303) {
-		const dest = new URL(path, this.origin);
-		return this.withPathHeader(NextResponse.redirect(dest, { status }));
-	}
-
-	private redirectAbs(absUrl: URL, status = 303) {
-		return this.withPathHeader(NextResponse.redirect(absUrl, { status }));
+	private redirect(to: string | URL, status = 303) {
+		const dest = to instanceof URL ? to : new URL(to, this.origin);
+		return this.isApp ? this.withPathHeader(NextResponse.redirect(dest, { status })) : NextResponse.redirect(dest, { status });
 	}
 
 	private rewrite(path: string) {
@@ -67,7 +63,7 @@ class CalendisProxy {
 	public handle() {
 		if (this.isProd) {
 			if (!this.isApp && this.pathname.startsWith('/app')) {
-				return new NextResponse('Not found', { status: 404 });
+				return this.rewrite('/404');
 			}
 
 			if (this.isApp) {
@@ -76,7 +72,7 @@ class CalendisProxy {
 						console.log('origin',this.origin);
 						const redirectTo = `${this.origin}/welcome`;
 						const loginUrl = new URL(`/login?redirect=${encodeURIComponent(redirectTo)}`, this.origin);
-						return this.withPathHeader(NextResponse.redirect(loginUrl, 303));
+						return this.redirect(loginUrl, 303);
 					}
 
 					return this.rewrite('/app');
