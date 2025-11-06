@@ -11,6 +11,10 @@ class CalendisProxy {
 	private readonly cookieUser?: string;
 	private readonly cookieDemo?: string;
 
+	/**
+	 * Initialize Calendis proxy with current request.
+	 * @param {NextRequest} req - The incoming Next.js request.
+	 */
 	constructor(req: NextRequest) {
 		this.req = req;
 		this.url = req.nextUrl.clone();
@@ -21,10 +25,19 @@ class CalendisProxy {
 		this.cookieDemo = req.cookies.get(cookieName.demo)?.value;
 	}
 
+	/**
+	 * Continue to next middleware or route.
+	 * @param {MiddlewareResponseInit} [opts] - Optional middleware options.
+	 * @return {NextResponse} Next.js response continuation.
+	 */
 	private readonly next: (opts?: MiddlewareResponseInit) => NextResponse = (opts) => {
 		return NextResponse.next(opts);
 	}
 
+	/**
+	 * Resolve the request hostname based on environment.
+	 * @return {string} The resolved hostname.
+	 */
 	private resolveHostname(): string {
 		const hostname = this.req.headers.get('host') ?? this.req.headers.get('x-forwarded-host') ?? this.url.hostname;
 
@@ -41,6 +54,10 @@ class CalendisProxy {
 		return hostname;
 	}
 
+	/**
+	 * Get current runtime environment.
+	 * @return {Environment} The active environment.
+	 */
 	get env(): Environment {
 		const hostname = this.url.hostname;
 
@@ -51,6 +68,11 @@ class CalendisProxy {
 		return 'development';
 	}
 
+	/**
+	 * Extract subdomain from hostname.
+	 * @param {string} hostname - Hostname to analyze.
+	 * @return {SubDomain | 'none'} The detected subdomain.
+	 */
 	private getSubdomain(hostname: string): SubDomain | 'none' {
 		if (hostname.startsWith('www.')) return 'www';
 		if (hostname.startsWith('app.')) return 'app';
@@ -60,42 +82,83 @@ class CalendisProxy {
 		return 'none';
 	}
 
+	/**
+	 * Check if user session exists.
+	 * @return {boolean} True if user cookie is present.
+	 */
 	private isUser(): boolean {
 		return Boolean(this.cookieUser?.trim());
 	}
 
+	/**
+	 * Check if demo session exists.
+	 * @return {boolean} True if demo cookie is present.
+	 */
 	private isDemoUser(): boolean {
 		return Boolean(this.cookieDemo?.trim());
 	}
 
+	/**
+	 * Check if current path is public.
+	 * @return {boolean} True if path is in publicPaths list.
+	 */
 	private isPublicPath(): boolean {
 		return publicPaths.includes(this.pathname);
 	}
 
+	/**
+	 * Rewrite request to a new path.
+	 * @param {string | URL} path - The destination path.
+	 * @param {{request: {headers: Headers}}} [options] - Optional rewrite options.
+	 * @return {NextResponse} The rewrite response.
+	 */
 	private rewrite(path: string | URL, options?: { request: { headers: Headers } }): NextResponse {
 		const url = path instanceof URL ? path : new URL(path, this.url.origin);
 		return NextResponse.rewrite(url, options);
 	}
 
-	private redirect(to: string | URL, status = 303): NextResponse {
+	/**
+	 * Redirect request to another path.
+	 * @param {string | URL} to - The redirect destination.
+	 * @param {number} [status=303] - Redirect status code.
+	 * @return {NextResponse} The redirect response.
+	 */
+	private redirect(to: string | URL, status: number = 303): NextResponse {
 		const url = to instanceof URL ? to : new URL(to, this.url.origin);
 		return NextResponse.redirect(url, { status });
 	}
 
+	/**
+	 * Build a redirect query parameter for current path.
+	 * @return {string} Encoded redirect URL.
+	 */
 	private buildRedirect(): string {
 		const full = `${this.origin}${this.pathname}${this.url.search}`;
 		return encodeURIComponent(full);
 	}
 
+	/**
+	 * Rewrite response to 404 page.
+	 * @return {NextResponse} The not-found response.
+	 */
 	private notFound(): NextResponse {
 		return this.rewrite('/404');
 	}
 
+	/**
+	 * Check if current path starts with one of provided prefixes.
+	 * @param {...string[]} paths - Path prefixes to test.
+	 * @return {boolean} True if pathname matches any prefix.
+	 */
 	private isPath(...paths: string[]): boolean {
 		return paths.some((path) => this.pathname.startsWith(path));
 	}
 
-	private handleWWW() {
+	/**
+	 * Handle requests for the www subdomain.
+	 * @return {NextResponse} The response for www domain.
+	 */
+	private handleWWW(): NextResponse {
 		if (this.isPath('/auth')) {
 			return this.rewrite('/404');
 		}
@@ -107,7 +170,11 @@ class CalendisProxy {
 		return this.next();
 	}
 
-	private handleApp() {
+	/**
+	 * Handle requests for the app subdomain.
+	 * @return {NextResponse} The response for app domain.
+	 */
+	private handleApp(): NextResponse {
 		const isUser = this.isUser();
 
 		if (this.pathname === '/') {
@@ -134,11 +201,19 @@ class CalendisProxy {
 		return this.rewrite(`/app${this.pathname}`);
 	}
 
-	private handleDemo() {
-
+	/**
+	 * Handle requests for the demo subdomain.
+	 * @return {NextResponse} The response for demo domain.
+	 */
+	private handleDemo(): NextResponse {
+		return this.next();
 	}
 
-	private handleTest() {
+	/**
+	 * Handle requests for the test domain (vercel.app).
+	 * @return {NextResponse} The response for test environment.
+	 */
+	private handleTest(): NextResponse {
 		const isUser = this.isUser();
 		const isDemoUser = this.isDemoUser();
 
@@ -166,7 +241,11 @@ class CalendisProxy {
 		return this.next();
 	}
 
-	public handle() {
+	/**
+	 * Main middleware handler, routing requests by subdomain.
+	 * @return {NextResponse} The final middleware response.
+	 */
+	public handle(): NextResponse {
 		const hostname = this.hostname;
 		const subdomain = this.getSubdomain(hostname);
 
