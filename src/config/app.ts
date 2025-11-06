@@ -44,7 +44,6 @@ export const domain = {
 		production: 'demo.calendis.fr',
 	},
 	test: {
-		development: 'calendis-web.vercel.app',
-		production: 'calendis-web.vercel.app'
+		development: 'calendis-web.vercel.app'
 	}
 };

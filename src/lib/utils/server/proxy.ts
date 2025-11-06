@@ -30,7 +30,7 @@ class CalendisProxy {
 	 * @param {MiddlewareResponseInit} [opts] - Optional middleware options.
 	 * @return {NextResponse} Next.js response continuation.
 	 */
-	private readonly next: (opts?: MiddlewareResponseInit) => NextResponse = (opts) => {
+	private readonly next: (opts?: MiddlewareResponseInit) => NextResponse = (opts?: MiddlewareResponseInit): NextResponse => {
 		return NextResponse.next(opts);
 	}
 

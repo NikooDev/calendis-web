@@ -5,7 +5,7 @@ import { defaultDescription, defaultTitle } from '@Calendis/config/metadatas';
 
 export const GET = async (req: NextRequest) => {
 	const header = await headers();
-	const hostname = header.get('x-forwarded-host') || req.headers.get('host');
+	const hostname = req.headers.get('host') || header.get('x-forwarded-host');
 
 	if (hostname !== domain.app.production && hostname !== domain.app.development) {
 		return NextResponse.json({
