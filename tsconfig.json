@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@Calendis/*": ["./src/*"],
+      "@Calendis/repository/*": ["./src/lib/repository/*"],
+      "@Calendis/services/*": ["./src/lib/services/*"],
+      "@Calendis/store/*": ["./src/lib/store/*"],
+      "@Calendis/lib/client/*": ["./src/lib/utils/client/*"],
+      "@Calendis/lib/hybrid/*": ["./src/lib/utils/hybrid/*"],
+      "@Calendis/lib/server/*": ["./src/lib/utils/server/*"],
+      "@Calendis/Env": ["./Env.ts"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts",
+    "dist/types/**/*.ts",
+    "dist/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
