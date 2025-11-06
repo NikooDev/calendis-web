@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "convert:types": "mkdir -p functions/src/types && cp -R src/types/shared functions/src/types/ && node functions/src/scripts/convertDates.js",
+    "emulator:start": "firebase emulators:start --import=./exports --export-on-exit=./exports",
+    "deploy:rules": "firebase deploy --only firestore:rules && firebase deploy --only storage:rules"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^5.3.0",
