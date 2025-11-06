@@ -43,5 +43,8 @@ export const domain = {
 		development: 'demo.localhost:3000',
 		production: 'demo.calendis.fr',
 	},
-	test: 'calendis-web.vercel.app'
+	test: {
+		development: 'calendis-web.vercel.app',
+		production: 'calendis-web.vercel.app'
+	}
 };

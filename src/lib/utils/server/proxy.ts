@@ -31,7 +31,7 @@ class CalendisProxy {
 		if (this.env === 'development') {
 			const subdomain = this.getSubdomain(hostname);
 
-			if (['www', 'app', 'demo'].includes(subdomain)) {
+			if (['www', 'app', 'demo', 'test'].includes(subdomain)) {
 				return domain[subdomain as SubDomain].development;
 			}
 
@@ -55,6 +55,7 @@ class CalendisProxy {
 		if (hostname.startsWith('www.')) return 'www';
 		if (hostname.startsWith('app.')) return 'app';
 		if (hostname.startsWith('demo.')) return 'demo';
+		if (hostname.endsWith('vercel.app')) return 'test';
 
 		return 'none';
 	}
@@ -107,8 +108,10 @@ class CalendisProxy {
 	}
 
 	private handleApp() {
+		const isUser = this.isUser();
+
 		if (this.pathname === '/') {
-			return this.isUser() ? this.redirect('/welcome') : this.redirect('/auth/login');
+			return isUser ? this.redirect('/welcome') : this.redirect('/auth/login');
 		}
 
 		if (this.pathname === '/app' || this.isPath('/app')) {
@@ -116,15 +119,15 @@ class CalendisProxy {
 		}
 
 		if (this.isPath('/auth')) {
-			return this.isUser() ? this.redirect('/welcome') : this.next();
+			return isUser ? this.redirect('/welcome') : this.next();
 		}
 
-		if (!this.isUser() && !this.isPublicPath()) {
+		if (!isUser && !this.isPublicPath()) {
 			const redirectParam = this.buildRedirect();
 			return this.redirect(`/auth/login?redirect=${redirectParam}`);
 		}
 
-		if (this.isUser() && this.isPublicPath()) {
+		if (isUser && this.isPublicPath()) {
 			return this.redirect('/welcome');
 		}
 
@@ -133,6 +136,34 @@ class CalendisProxy {
 
 	private handleDemo() {
 
+	}
+
+	private handleTest() {
+		const isUser = this.isUser();
+		const isDemoUser = this.isDemoUser();
+
+		if (this.isPath('/app') && !isUser) {
+			const redirectParam = this.buildRedirect();
+			return this.redirect(`/auth/login?redirect=${redirectParam}`);
+		}
+
+		if (this.isPath('/demo') && !isDemoUser) {
+			const redirectParam = this.buildRedirect();
+			return this.redirect(`/auth/login?redirect=${redirectParam}`);
+		}
+
+		if (this.isPath('/auth/login') || this.isPath('/auth/signup')) {
+			if (isUser || isDemoUser) {
+				return this.redirect('/welcome');
+			}
+			return this.next();
+		}
+
+		if (this.pathname === '/') {
+			return this.next();
+		}
+
+		return this.next();
 	}
 
 	public handle() {
@@ -146,6 +177,8 @@ class CalendisProxy {
 				return this.handleApp();
 			case 'demo':
 				return this.handleDemo();
+			case 'test':
+				return this.handleTest();
 			default:
 				return this.notFound();
 		}
