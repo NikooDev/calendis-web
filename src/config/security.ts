@@ -15,6 +15,10 @@ const scriptSrc = isProd
 	? "'self' 'unsafe-inline' https://www.gstatic.com https://www.googleapis.com https://js.stripe.com;"
 	: "'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://www.googleapis.com https://js.stripe.com https://vercel.live;";
 
+const frameSrc = isProd
+	? "'self';"
+	: "'self' https://vercel.live;"
+
 /**
  * Global Content Security Policy applied to all requests.
  * Restricts sources for scripts, styles, connections, and embedded content.
@@ -33,7 +37,7 @@ export const csp = [
 	"base-uri 'none';",
 	"form-action 'self';",
 	"frame-ancestors 'none';",
-	"frame-src 'self';"
+	`frame-src ${frameSrc}`
 ].join(' ');
 
 /**
