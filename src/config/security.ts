@@ -24,7 +24,7 @@ export const csp = [
 	`script-src ${scriptSrc}`,
 	"style-src 'self' 'unsafe-inline';",
 	"img-src 'self' https://firebasestorage.googleapis.com data: blob:;",
-	`connect-src 'self' ${firebaseEndpoints} ${process.env.NEXT_PUBLIC_FIREBASE_FUNCTION_URL} https://api.stripe.com;`,
+	`connect-src 'self' ${firebaseEndpoints} ${process.env.NEXT_PUBLIC_FIREBASE_FUNCTION_URL} https://api.stripe.com https://vercel.live;`,
 	"font-src 'self';",
 	"manifest-src 'self';",
 	"worker-src 'self';",
@@ -46,6 +46,9 @@ export const headers = [
 	{ key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
 	{ key: 'Permissions-Policy', value: `geolocation=(), microphone=(self)` },
 	{ key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
-	{ key: 'Cross-Origin-Embedder-Policy', value: 'require-corp' },
+	...(isProd
+			? [{ key: 'Cross-Origin-Embedder-Policy', value: 'require-corp' }]
+			: [{ key: 'Cross-Origin-Embedder-Policy', value: 'unsafe-none' }]
+	),
 	{ key: 'Content-Security-Policy', value: csp }
 ];
