@@ -1,4 +1,23 @@
 /**
+ * Publicly accessible routes for the main app domain
+ * These paths do not require user authentication.
+ */
+export const publicPaths = [
+	'/auth/login',
+	'/auth/signup'
+]
+
+const prefixCookieName = 'cld_';
+
+/**
+ * Cookies name
+ */
+export const cookieName = {
+	session: `${prefixCookieName}session`,
+	demo: `${prefixCookieName}demo`
+}
+
+/**
  * List environments of application
  */
 export const environments = [

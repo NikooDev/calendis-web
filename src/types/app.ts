@@ -13,3 +13,10 @@ export interface MetadatasProps {
 }
 
 export type Environment = typeof environments[number];
+export type SubDomain = 'www' | 'app' | 'demo';
+
+export interface MiddlewareResponseInit {
+	request: {
+		headers: Headers;
+	}
+}
