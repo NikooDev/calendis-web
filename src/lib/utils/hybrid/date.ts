@@ -137,7 +137,7 @@ class FormatDate {
 	 * @param {string} [locale='fr'] - Optional locale code (default: 'fr').
 	 * @returns {string} Localized formatted date string.
 	 */
-	public static toLocaleString(date: Date | string | Timestamp, locale = 'fr'): string {
+	public static toLocaleString(date: Date | string | Timestamp, locale: string = 'fr'): string {
 		const dt = DateTime.fromJSDate(this.resolveToDate(date)).setLocale(locale);
 		return dt.toFormat("d LLLL yyyy 'à' HH:mm");
 	}

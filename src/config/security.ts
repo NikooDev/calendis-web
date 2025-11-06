@@ -13,7 +13,7 @@ const firebaseEndpoints = [
 
 const scriptSrc = isProd
 	? "'self' 'unsafe-inline' https://www.gstatic.com https://www.googleapis.com https://js.stripe.com;"
-	: "'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://www.googleapis.com https://js.stripe.com;";
+	: "'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://www.googleapis.com https://js.stripe.com https://vercel.live;";
 
 /**
  * Global Content Security Policy applied to all requests.
