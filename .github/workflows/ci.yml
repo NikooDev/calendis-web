@@ -6,6 +6,10 @@ on:
       - preview
   pull_request:
 
+permissions:
+  contents: read
+  statuses: write
+
 jobs:
   check:
     runs-on: ubuntu-latest
