@@ -1,0 +1,35 @@
+name: ci.yml
+on:
+  push:
+    branches:
+      - main
+      - preview
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check TypeScript
+        run: npx tsc --noEmit
+
+      - name: Run build
+        run: npm run build
+
+      - name: 'notify vercel'
+        uses: 'vercel/repository-dispatch/actions/status@v1'
+        with:
+          name: 'Vercel - calendis-web: build'
