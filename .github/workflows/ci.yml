@@ -18,16 +18,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
+          cache: yarn
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Check TypeScript
         run: npx tsc --noEmit
 
-      - name: Run build
-        run: npm run build
+      - name: Build app
+        run: yarn build
 
       - name: 'notify vercel'
         uses: 'vercel/repository-dispatch/actions/status@v1'
