@@ -1,1 +1,75 @@
 @import "tailwindcss";
+@import "./theme.css";
+/*
+@import "./lib/tooltip.css";
+@import "./lib/dropdown.css";
+*/
+
+@layer base {
+	html {
+		@apply antialiased;
+	}
+
+	html, body {
+		@apply h-screen;
+		scrollbar-gutter: stable;
+	}
+
+	body {
+		@apply bg-background text-foreground font-medium font-default overflow-y-scroll h-[2000px];
+	}
+
+	body::-webkit-scrollbar {
+		@apply w-2 h-3;
+	}
+
+	body::-webkit-scrollbar-track {
+		/*@apply bg-track;*/
+	}
+
+	body::-webkit-scrollbar-thumb, .scrollable::-webkit-scrollbar-thumb, .scrollable:hover::-webkit-scrollbar-thumb {
+		/*@apply bg-thumb rounded-full border-3 border-transparent;*/
+	}
+
+	body {
+		transition: background-color .25s ease, color .15s ease;
+	}
+
+	header {
+		transition: left .2s ease, background-color .25s ease;
+	}
+
+	aside {
+		transition: width .2s ease;
+	}
+
+	aside > .sidebar {
+		transition: background-color .25s ease;
+	}
+
+	button:hover {
+		@apply cursor-pointer;
+	}
+
+	@supports (scrollbar-width: thin) {
+		/*
+		html {
+			scrollbar-color: var(--color-thumb) var(--color-header);
+			scrollbar-width: thin;
+		}
+
+		textarea {
+			scrollbar-width: thin;
+			scrollbar-color: var(--color-thumb) transparent;
+		}
+		 */
+	}
+}
+
+@layer utilities {
+
+}
+
+@layer components {
+
+}

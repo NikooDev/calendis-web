@@ -1,0 +1,65 @@
+@custom-variant dark (&:where([data-mode=dark], [data-mode=dark] *));
+
+@theme {
+	--font-title: var(--font-title);
+	--font-default: var(--font-default);
+	--toast-width: 356px;
+	--ripple-duration: .6s;
+	--radius-1xl: 10px;
+	--shadow-right: 4px 0px 6px -1px rgba(0,0,0,.1), 2px 0 4px -2px rgba(0,0,0,.1);
+
+	--color-background: #eff3f9;
+	--color-foreground: #333a4a;
+
+	--red-light: rgb(179, 88, 88);
+	--red-main: rgb(161, 64, 64);
+	--red-dark: rgb(128, 45, 45);
+	--orange-light: rgb(209, 112, 71);
+	--orange-main: rgb(172, 92, 56);
+	--orange-dark: rgb(143, 72, 43);
+	--green-light: rgb(70, 161, 92);
+	--green-main: rgb(54, 126, 72);
+	--green-dark: rgb(41, 90, 53);
+	--blue-light: rgb(47, 108, 225);
+	--blue-main: rgb(40, 92, 186);
+	--blue-dark: rgb(29, 67, 135);
+	--purple-light: rgb(129, 90, 184);
+	--purple-main: rgb(98, 66, 142);
+	--purple-dark: rgb(70, 45, 103);
+	--pink-light: rgb(204, 81, 132);
+	--pink-main: rgb(168, 63, 107);
+	--pink-dark: rgb(135, 50, 85);
+}
+
+:root {
+	color-scheme: light dark;
+
+	@media (prefers-color-scheme: dark) {
+		&,
+		&[data-mode='dark'] {
+			--color-background: #161b25;
+			--color-foreground: #c5ccdc;
+		}
+	}
+}
+
+:root[data-mode="dark"] {
+	--red-light: rgb(179, 88, 88);
+	--red-main: rgb(161, 64, 64);
+	--red-dark: rgb(128, 45, 45);
+	--orange-light: rgb(209, 112, 71);
+	--orange-main: rgb(172, 92, 56);
+	--orange-dark: rgb(143, 72, 43);
+	--green-light: rgb(70, 161, 92);
+	--green-main: rgb(54, 126, 72);
+	--green-dark: rgb(41, 90, 53);
+	--blue-light: rgb(47, 108, 225);
+	--blue-main: rgb(40, 92, 186);
+	--blue-dark: rgb(29, 67, 135);
+	--purple-light: rgb(129, 90, 184);
+	--purple-main: rgb(98, 66, 142);
+	--purple-dark: rgb(70, 45, 103);
+	--pink-light: rgb(204, 81, 132);
+	--pink-main: rgb(168, 63, 107);
+	--pink-dark: rgb(135, 50, 85);
+}
