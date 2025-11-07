@@ -178,7 +178,12 @@ class CalendisProxy {
 		const isUser = this.isUser();
 
 		if (this.pathname === '/') {
-			return isUser ? this.redirect('/welcome') : this.redirect('/auth/login');
+			if (isUser) {
+				return this.redirect('/welcome');
+			} else {
+				const redirectParam = this.buildRedirect();
+				return this.redirect(`/auth/login?redirect=${redirectParam}`);
+			}
 		}
 
 		if (this.pathname === '/app' || this.isPath('/app')) {
