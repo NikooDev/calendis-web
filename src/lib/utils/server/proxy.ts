@@ -179,7 +179,7 @@ class CalendisProxy {
 
 		if (this.pathname === '/') {
 			if (isUser) {
-				return this.redirect('/welcome');
+				return this.redirect('/home');
 			} else {
 				const redirectParam = this.buildRedirect();
 				return this.redirect(`/auth/login?redirect=${redirectParam}`);
@@ -191,7 +191,7 @@ class CalendisProxy {
 		}
 
 		if (this.isPath('/auth')) {
-			return isUser ? this.redirect('/welcome') : this.next();
+			return isUser ? this.redirect('/home') : this.next();
 		}
 
 		if (!isUser && !this.isPublicPath()) {
@@ -200,7 +200,7 @@ class CalendisProxy {
 		}
 
 		if (isUser && this.isPublicPath()) {
-			return this.redirect('/welcome');
+			return this.redirect('/home');
 		}
 
 		return this.rewrite(`/app${this.pathname}`);
@@ -234,7 +234,7 @@ class CalendisProxy {
 
 		if (this.isPath('/auth/login') || this.isPath('/auth/signup')) {
 			if (isUser || isDemoUser) {
-				return this.redirect('/welcome');
+				return this.redirect('/home');
 			}
 			return this.next();
 		}

@@ -7,6 +7,7 @@
 	--ripple-duration: .6s;
 	--radius-1xl: 10px;
 	--shadow-right: 4px 0px 6px -1px rgba(0,0,0,.1), 2px 0 4px -2px rgba(0,0,0,.1);
+	--bg-thumb: rgba(0, 0, 0, .3);
 
 	--color-background: #eff3f9;
 	--color-foreground: #333a4a;
@@ -37,6 +38,8 @@
 	@media (prefers-color-scheme: dark) {
 		&,
 		&[data-mode='dark'] {
+			--bg-thumb: rgba(255, 255, 255, .3);
+
 			--color-background: #161b25;
 			--color-foreground: #c5ccdc;
 		}

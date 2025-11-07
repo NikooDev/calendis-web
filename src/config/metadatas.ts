@@ -5,14 +5,14 @@ export const defaultTitle = 'Calendis';
 export const defaultDescription = 'L\'application unique pour planifier la distribution du calendrier, gérer vos événements et suivre la vie de l’amicale.';
 
 const metadatas = (config?: MetadatasProps): Metadata => {
-	const { title: t, description: d, index = true, follow = true } = config ?? {};
+	const { title: t, description: d, index, follow } = config ?? {};
 
 	return {
 		title: t ?? defaultTitle,
 		description: d ?? defaultDescription,
 		robots: {
-			index,
-			follow
+			index: index ?? true,
+			follow: follow ?? true
 		},
 		icons: {
 			icon: [

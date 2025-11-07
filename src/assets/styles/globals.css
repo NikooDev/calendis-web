@@ -12,27 +12,23 @@
 
 	html, body {
 		@apply h-screen;
-		scrollbar-gutter: stable;
 	}
 
 	body {
-		@apply bg-background text-foreground font-medium font-default overflow-y-scroll h-[2000px];
+		@apply bg-background text-foreground font-medium font-default overflow-hidden;
 	}
 
 	body::-webkit-scrollbar {
 		@apply w-2 h-3;
 	}
 
-	body::-webkit-scrollbar-track {
-		/*@apply bg-track;*/
-	}
-
-	body::-webkit-scrollbar-thumb, .scrollable::-webkit-scrollbar-thumb, .scrollable:hover::-webkit-scrollbar-thumb {
-		/*@apply bg-thumb rounded-full border-3 border-transparent;*/
-	}
-
 	body {
 		transition: background-color .25s ease, color .15s ease;
+	}
+
+	main {
+		@apply relative h-full overflow-y-scroll;
+		scrollbar-color: var(--bg-thumb) var(--color-background);
 	}
 
 	header {
