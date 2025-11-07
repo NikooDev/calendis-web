@@ -7,11 +7,10 @@ export const publicPaths = [
 	'/auth/signup'
 ]
 
-const prefixCookieName = 'cld_';
-
 /**
  * Cookies name
  */
+const prefixCookieName = 'cld_';
 export const cookieName = {
 	session: `${prefixCookieName}session`,
 	demo: `${prefixCookieName}demo`

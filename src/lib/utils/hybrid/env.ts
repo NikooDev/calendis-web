@@ -16,6 +16,10 @@ class Env {
 		return process.env.NEXT_PUBLIC_ENVIRONMENT === env;
 	};
 
+	public static isDemo(): boolean {
+		return typeof window !== 'undefined' && window.location.hostname.startsWith('demo.');
+	}
+
 	/**
 	 * Get a public environment variable.
 	 * @template K
