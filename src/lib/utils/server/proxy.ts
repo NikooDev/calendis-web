@@ -180,6 +180,7 @@ class CalendisProxy {
 		if (this.pathname === '/') {
 			if (isUser) {
 				return this.redirect('/welcome');
+
 			} else {
 				const redirectParam = this.buildRedirect();
 				return this.redirect(`/auth/login?redirect=${redirectParam}`);
